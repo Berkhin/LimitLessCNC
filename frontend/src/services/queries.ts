@@ -3,12 +3,14 @@
  *
  * 409 Conflict recovery:
  *   Both submit mutations catch ConflictError in onError and invalidate the
- *   relevant context query so it refetches automatically. The modal stays open
- *   because only the component's onSuccess path calls closeModal(); onError does
- *   NOT call it. The user sees the fresh context and can confirm again.
+ *   relevant context query so it refetches automatically. Closing the modal is
+ *   only ever driven by the success path (onSuccess === closeModal), so a 409
+ *   leaves it open by construction. The flow hooks (useApproveFlow /
+ *   usePublishFlow) then block re-confirmation until that refetch settles, so
+ *   the user always sees fresh context before confirming again.
  *
- * Query keys are exported constants so useSyncWebSocket can invalidate the same
- * keys without hard-coding strings.
+ * Query keys are exported constants so useSyncWebSocket and the flow hooks can
+ * invalidate/remove the same keys without hard-coding strings.
  */
 
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

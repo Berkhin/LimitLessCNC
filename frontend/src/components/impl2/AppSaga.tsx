@@ -10,10 +10,9 @@
 import { Provider } from 'react-redux';
 import {
   abortMessageCleared,
-  approveRequested,
   cancelRequested,
   confirmRequested,
-  publishRequested,
+  flowRequested,
 } from '../../store/redux/flowSlice';
 import { useAppDispatch, useAppSelector } from '../../store/redux/hooks';
 import { store } from '../../store/redux/store';
@@ -47,8 +46,8 @@ function AppSagaContent() {
 
       <DocumentCard
         document={documentState}
-        onApprove={() => dispatch(approveRequested())}
-        onPublish={() => dispatch(publishRequested())}
+        onApprove={() => dispatch(flowRequested('approve'))}
+        onPublish={() => dispatch(flowRequested('publish'))}
       />
 
       {activeFlow === 'approve' && (

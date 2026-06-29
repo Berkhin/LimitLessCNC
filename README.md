@@ -86,6 +86,21 @@ Actions: `increment_version`, `change_approvers`, `change_dependents`. Full
 details — including the HTTP endpoints, the `409` conflict shape, and the
 `STATE_UPDATED` WebSocket event — are in [backend/README.md](backend/README.md).
 
+## Tests
+
+The orchestration logic is covered by a focused [Vitest](https://vitest.dev) suite:
+
+```bash
+cd frontend
+npm test          # run once
+npm run test:watch
+```
+
+It exercises the saga flows as pure generators (the confirm gate, mid-flight
+refetch/abort, 409 recovery), a single-flight integration test that asserts an
+Approve→Publish→Confirm sequence fires exactly one submit, and the shared
+version-detection helper. See the *Testing* section of [JOURNAL.md](JOURNAL.md).
+
 ## Design journal
 
 [JOURNAL.md](JOURNAL.md) covers how each implementation handled the four

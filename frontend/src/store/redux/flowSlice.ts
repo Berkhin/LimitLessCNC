@@ -40,8 +40,12 @@ const initialState: FlowState = {
 };
 
 // Intent actions: dispatched by the UI, consumed by sagas. No reducer changes.
-export const approveRequested = createAction('flow/approveRequested');
-export const publishRequested = createAction('flow/publishRequested');
+//
+// Both entry points funnel through ONE `flowRequested` trigger (carrying which
+// flow) rather than separate approve/publish actions. That is what lets a single
+// `takeLeading` enforce "only one flow in flight" as a structural invariant —
+// see rootSaga for why two per-flow watchers cannot.
+export const flowRequested = createAction<FlowKind>('flow/flowRequested');
 export const confirmRequested = createAction('flow/confirmRequested');
 export const cancelRequested = createAction('flow/cancelRequested');
 

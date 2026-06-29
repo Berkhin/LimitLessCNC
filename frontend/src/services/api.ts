@@ -1,7 +1,8 @@
 /**
  * Strongly typed REST client (native fetch) for the document-approval backend.
  *
- * Every endpoint in docs/3_API_CONTRACTS.md is represented exactly once here.
+ * Covers the production endpoints the app consumes; the dev-only `/api/dev/mutate`
+ * trigger is driven directly via curl (see README) and has no client binding.
  * Non-2xx responses throw: a generic `ApiError`, or a `ConflictError` carrying
  * the server's current version so the approve/publish flows can refetch context
  * and re-present the modal before the user confirms again.
@@ -10,8 +11,6 @@
 import type {
   ApprovalContext,
   ApproveResult,
-  MutateAction,
-  MutateResult,
   PublishContext,
   PublishResult,
 } from './types';
@@ -101,12 +100,5 @@ export function publish(version: number): Promise<PublishResult> {
   return request<PublishResult>('/api/publish', {
     method: 'POST',
     body: JSON.stringify({ version }),
-  });
-}
-
-export function mutate(action: MutateAction): Promise<MutateResult> {
-  return request<MutateResult>('/api/dev/mutate', {
-    method: 'POST',
-    body: JSON.stringify({ action }),
   });
 }

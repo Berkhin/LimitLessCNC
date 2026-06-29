@@ -43,18 +43,6 @@ export interface PublishResult {
   version: number;
 }
 
-/** Accepted actions for POST /api/dev/mutate. */
-export type MutateAction =
-  | 'increment_version'
-  | 'change_approvers'
-  | 'change_dependents';
-
-/** POST /api/dev/mutate -> 200 */
-export interface MutateResult {
-  applied: MutateAction;
-  document: DocumentState;
-}
-
 /** Body of a STATE_UPDATED WebSocket event (the meaningful content). */
 export interface StateUpdatedPayload {
   document: DocumentState;

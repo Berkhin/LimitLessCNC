@@ -8,6 +8,7 @@
 
 import { call, put, race, take } from 'redux-saga/effects';
 import { ConflictError, approve, getApprovalContext } from '../../../services/api';
+import { isVersionChanged } from '../../../services/stateUpdate';
 import type { ApprovalContext, StateUpdatedPayload } from '../../../services/types';
 import {
   approvalContextLoaded,
@@ -44,7 +45,8 @@ export function* runApproveFlow() {
         version = context.documentVersion;
         yield put(approvalContextLoaded(context));
         needFetch = false;
-      } catch {
+      } catch (error) {
+        console.error('Approve flow: failed to load approval context', error);
         yield put(flowAborted(APPROVE_LOAD_ERROR));
         return;
       }
@@ -63,13 +65,14 @@ export function* runApproveFlow() {
 
     if (changed) {
       const payload: StateUpdatedPayload = changed.payload;
-      // Both flags = the version was bumped: what the user is confirming no
-      // longer exists in the form they saw, so abort cleanly.
-      if (payload.approvalContextChanged && payload.publishContextChanged) {
+      // The version we are about to confirm no longer matches the server, so
+      // what the user reviewed no longer exists in that form: abort cleanly.
+      if (isVersionChanged(payload, version)) {
         yield put(flowAborted(VERSION_ABORT));
         return;
       }
-      // Refetch only when the approval context itself changed; ignore the rest.
+      // Same version, but the approval context itself changed -> refetch in
+      // place; ignore changes that only affect the publish context.
       if (payload.approvalContextChanged) needFetch = true;
       continue;
     }
@@ -85,6 +88,7 @@ export function* runApproveFlow() {
           needFetch = true;
           continue;
         }
+        console.error('Approve flow: failed to submit approval', error);
         yield put(noticeSet(APPROVE_SUBMIT_ERROR));
         continue;
       }

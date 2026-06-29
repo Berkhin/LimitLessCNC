@@ -5,8 +5,9 @@
  * corresponding modal is open. Also caches the live document snapshot delivered
  * by the WebSocket so both flows share one source of truth for document data.
  *
- * Re-entrancy protection lives at the mutation layer (isPending check), not
- * here. This store only tells the rest of the app what is happening.
+ * Re-entrancy protection lives in the flow hooks (a synchronous ref latch at the
+ * effect layer), not here. This store only tells the rest of the app what is
+ * happening.
  */
 
 import { create } from 'zustand';

@@ -7,6 +7,7 @@
 
 import { call, put, race, take } from 'redux-saga/effects';
 import { ConflictError, getPublishContext, publish } from '../../../services/api';
+import { isVersionChanged } from '../../../services/stateUpdate';
 import type { PublishContext, StateUpdatedPayload } from '../../../services/types';
 import {
   cancelRequested,
@@ -43,7 +44,8 @@ export function* runPublishFlow() {
         version = context.documentState.version;
         yield put(publishContextLoaded(context));
         needFetch = false;
-      } catch {
+      } catch (error) {
+        console.error('Publish flow: failed to load publish context', error);
         yield put(flowAborted(PUBLISH_LOAD_ERROR));
         return;
       }
@@ -62,10 +64,13 @@ export function* runPublishFlow() {
 
     if (changed) {
       const payload: StateUpdatedPayload = changed.payload;
-      if (payload.approvalContextChanged && payload.publishContextChanged) {
+      // The version we are about to confirm no longer matches the server, so
+      // what the user reviewed no longer exists in that form: abort cleanly.
+      if (isVersionChanged(payload, version)) {
         yield put(flowAborted(VERSION_ABORT));
         return;
       }
+      // Same version, but the publish context itself changed -> refetch in place.
       if (payload.publishContextChanged) needFetch = true;
       continue;
     }
@@ -81,6 +86,7 @@ export function* runPublishFlow() {
           needFetch = true;
           continue;
         }
+        console.error('Publish flow: failed to submit publish', error);
         yield put(noticeSet(PUBLISH_SUBMIT_ERROR));
         continue;
       }

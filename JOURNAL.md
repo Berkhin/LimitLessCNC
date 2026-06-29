@@ -1,54 +1,66 @@
-# Design Journal
+# Design & Architecture Journal
 
-This journal documents my thought process and architectural decisions while building the document approval application. 
+This journal documents my thought process and architectural decisions while building the document approval application for LimitlessCNC. 
 
 As requested, I am writing this incrementally as I build out both implementations. My goal here is to honestly evaluate the trade-offs between my preferred modern stack (TanStack Query + Zustand) and the classic Redux + Redux Saga approach. 
 
-I'll be focusing specifically on how each architecture handles the four core orchestration challenges:
-1. Sequential async flows with human-in-the-loop gates.
-2. Mid-flight state invalidation via WebSockets.
-3. Re-entrancy protection at the effect layer.
-4. Graceful recovery from version conflicts.
+I'll be focusing specifically on how each architecture handles the four core orchestration challenges, noting where the framework helped, where it fought me, and where the idiomatic answers surprised me.
 
 ---
 
 ## Implementation 1 — TanStack Query + Zustand
 
-### Sequential async with user-input gates
+### 1. Sequential async with user-input gates
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
-_TBD_
+### 2. Mid-flight state invalidation via WebSocket
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
-### Mid-flight state invalidation via WebSocket
+### 3. Re-entrancy protection
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
-_TBD_
-
-### Re-entrancy protection
-
-_TBD_
-
-### Version-conflict handling
-
-_TBD_
+### 4. Version-conflict handling
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
 ---
 
 ## Implementation 2 — Redux Toolkit + Redux Saga
 
-### Sequential async with user-input gates
+### 1. Sequential async with user-input gates
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
-_TBD_
+### 2. Mid-flight state invalidation via WebSocket
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
-### Mid-flight state invalidation via WebSocket
+### 3. Re-entrancy protection
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
-_TBD_
-
-### Re-entrancy protection
-
-_TBD_
-
-### Version-conflict handling
-
-_TBD_
+### 4. Version-conflict handling
+* **The Approach:** _TBD_
+* **Where it shined:** _TBD_
+* **Where it fought me:** _TBD_
+* **The Surprises:** _TBD_
 
 ---
 

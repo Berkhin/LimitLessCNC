@@ -9,6 +9,7 @@ import { Modal } from './Modal';
 export interface PublishModalProps {
   isOpen: boolean;
   context: PublishContext | null;
+  notice?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -16,6 +17,7 @@ export interface PublishModalProps {
 export function PublishModal({
   isOpen,
   context,
+  notice,
   onConfirm,
   onCancel,
 }: PublishModalProps) {
@@ -24,6 +26,7 @@ export function PublishModal({
       isOpen={isOpen}
       title="Publish document"
       confirmLabel="Confirm publish"
+      notice={notice}
       onConfirm={onConfirm}
       onCancel={onCancel}
     >

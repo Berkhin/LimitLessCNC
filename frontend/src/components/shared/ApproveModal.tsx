@@ -9,6 +9,7 @@ import { Modal } from './Modal';
 export interface ApproveModalProps {
   isOpen: boolean;
   context: ApprovalContext | null;
+  notice?: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
@@ -16,6 +17,7 @@ export interface ApproveModalProps {
 export function ApproveModal({
   isOpen,
   context,
+  notice,
   onConfirm,
   onCancel,
 }: ApproveModalProps) {
@@ -24,6 +26,7 @@ export function ApproveModal({
       isOpen={isOpen}
       title="Approve document"
       confirmLabel="Confirm approval"
+      notice={notice}
       onConfirm={onConfirm}
       onCancel={onCancel}
     >

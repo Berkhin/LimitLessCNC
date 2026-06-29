@@ -54,3 +54,16 @@ export interface MutateResult {
   applied: MutateAction;
   document: DocumentState;
 }
+
+/** Body of a STATE_UPDATED WebSocket event (the meaningful content). */
+export interface StateUpdatedPayload {
+  document: DocumentState;
+  approvalContextChanged: boolean;
+  publishContextChanged: boolean;
+}
+
+/** The only message the server pushes over the WebSocket (see ws://.../ws). */
+export interface StateUpdatedEvent {
+  type: 'STATE_UPDATED';
+  payload: StateUpdatedPayload;
+}

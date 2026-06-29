@@ -11,6 +11,6 @@ dist/
 .vite/
 
 # Env & editor
-.env
-.env.local
+# .env
+# .env.local
 .DS_Store

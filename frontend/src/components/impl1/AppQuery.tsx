@@ -6,7 +6,6 @@
  * wraps an inner component so the hooks run inside Query context.
  */
 
-import type { CSSProperties } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ConflictError } from '../../services/api';
 import {
@@ -18,17 +17,10 @@ import {
 } from '../../services/queries';
 import { useSyncWebSocket } from '../../services/useSyncWebSocket';
 import { useFlowStore } from '../../store/useFlowStore';
+import { AbortAlert } from '../shared/AbortAlert';
 import { ApproveModal } from '../shared/ApproveModal';
 import { DocumentCard } from '../shared/DocumentCard';
 import { PublishModal } from '../shared/PublishModal';
-
-const alertStyle: CSSProperties = {
-  marginBottom: '1rem',
-  padding: '0.75rem',
-  border: '1px solid #c0392b',
-  color: '#c0392b',
-  borderRadius: 4,
-};
 
 /** Map a mutation error to a short user-facing notice (undefined when none). */
 function errorNotice(error: unknown): string | undefined {
@@ -83,12 +75,7 @@ function AppQueryContent() {
   return (
     <main style={{ padding: '2rem' }}>
       {abortMessage && (
-        <div role="alert" style={alertStyle}>
-          {abortMessage}{' '}
-          <button type="button" onClick={clearAbortMessage}>
-            Dismiss
-          </button>
-        </div>
+        <AbortAlert message={abortMessage} onDismiss={clearAbortMessage} />
       )}
 
       <DocumentCard

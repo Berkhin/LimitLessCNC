@@ -10,6 +10,8 @@ export interface ModalProps {
   isOpen: boolean;
   title: string;
   confirmLabel: string;
+  /** Optional status line (e.g. a version-conflict or error message). */
+  notice?: string;
   onConfirm: () => void;
   onCancel: () => void;
   children: ReactNode;
@@ -40,10 +42,19 @@ const footerStyle: CSSProperties = {
   marginTop: '1.5rem',
 };
 
+const noticeStyle: CSSProperties = {
+  padding: '0.5rem 0.75rem',
+  marginBottom: '0.75rem',
+  border: '1px solid #c0392b',
+  color: '#c0392b',
+  borderRadius: 4,
+};
+
 export function Modal({
   isOpen,
   title,
   confirmLabel,
+  notice,
   onConfirm,
   onCancel,
   children,
@@ -53,6 +64,11 @@ export function Modal({
     <div style={overlayStyle} role="dialog" aria-modal="true" aria-label={title}>
       <div style={dialogStyle}>
         <h2 style={{ marginTop: 0 }}>{title}</h2>
+        {notice && (
+          <p style={noticeStyle} role="alert">
+            {notice}
+          </p>
+        )}
         {children}
         <div style={footerStyle}>
           <button type="button" onClick={onCancel}>

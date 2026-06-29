@@ -10,9 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "frontend": "file:",
+    "@tanstack/react-query": "^5.101.2",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",

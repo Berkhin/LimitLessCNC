@@ -1,0 +1,6 @@
+# FastAPI application framework (Starlette + Pydantic v2 under the hood).
+fastapi>=0.115.0
+
+# ASGI server. The [standard] extra pulls in `websockets`, which the
+# /ws endpoint requires — plain `uvicorn` ships no WebSocket implementation.
+uvicorn[standard]>=0.30.0

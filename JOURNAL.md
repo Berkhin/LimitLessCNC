@@ -32,7 +32,7 @@ I'll be focusing specifically on how each architecture handles the four core orc
 * **The Approach:** _TBD_
 * **Where it shined:** _TBD_
 * **Where it fought me:** _TBD_
-* **The Surprises:** _TBD_
+* **The Surprises:** refetchOnReconnect kept healing the conflict out from under me during manual testing. To force the 409 UI path, the plan was to toggle DevTools to "Offline", bump the document version server-side, then come back online and submit the now-stale version. But React Query's default refetchOnReconnect refetched the active approval-context query the instant the browser reconnected, so the modal silently corrected itself to the new version before I could click "Confirm" - the conflict healed faster than I could trigger it. I only reproduced a genuine 409 by explicitly blocking the WebSocket URL in DevTools so the context query couldn't auto-refetch. It's a great reminder that the 409 handler is a true safety net: React Query's defaults (refetchOnReconnect, on top of our WebSocket-driven invalidation/abort) already dissolve most conflicts before submit, so the server's 409 only surfaces in the narrow window where the client genuinely missed the update. An excellent out-of-the-box resilience win - and a hilarious hurdle for manual testing.
 
 ---
 

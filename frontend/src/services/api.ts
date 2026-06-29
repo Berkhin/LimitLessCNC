@@ -63,10 +63,12 @@ function readConflictDetail(body: unknown): ConflictDetail | null {
 
 /** Issue a JSON request and parse the response, raising typed errors on failure. */
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const response = await fetch(`${BASE_URL}${path}`, {
-    ...init,
-    headers: { 'Content-Type': 'application/json', ...init.headers },
-  });
+  // Only declare a JSON content type when there is a body. Sending it on GETs
+  // would make them non-simple requests and force a needless CORS preflight.
+  const headers: HeadersInit = init.body
+    ? { 'Content-Type': 'application/json', ...init.headers }
+    : { ...init.headers };
+  const response = await fetch(`${BASE_URL}${path}`, { ...init, headers });
 
   if (!response.ok) {
     const body: unknown = await response.json().catch(() => null);
